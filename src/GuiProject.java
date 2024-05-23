@@ -11,6 +11,7 @@ public class GuiProject extends JFrame {
     private JSpinner agility, speed, strength;
 
     public GuiProject() {
+        // Setting panel title, sizing and close operation
         setTitle("Athlete Data App");
         setSize(1000, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,10 +20,11 @@ public class GuiProject extends JFrame {
         // Main content panel with grid layout
         JPanel contentPanel = new JPanel(new GridLayout(0, 2, 10, 10));
 
-        // Player Info Section
+        // Player Info questions
         contentPanel.add(new JLabel("Player Info", SwingConstants.CENTER));
-        contentPanel.add(new JLabel("")); // empty cell for spacing
+        contentPanel.add(new JLabel("")); // Empty cell for spacing
 
+        // Text fields for input questions
         contentPanel.add(new JLabel("Name:"));
         name = new JTextField();
         contentPanel.add(name);
@@ -39,18 +41,21 @@ public class GuiProject extends JFrame {
         weight = new JTextField();
         contentPanel.add(weight);
 
-        // Athletic Overview Section
+        // Athletic Overview questions
         contentPanel.add(new JLabel("Athletic Overview", SwingConstants.CENTER));
-        contentPanel.add(new JLabel("")); // empty cell for spacing
+        contentPanel.add(new JLabel(""));
 
+        // Add text area for injury history
         contentPanel.add(new JLabel("Injury History:"));
         injuryHistory = new JTextArea(3, 20);
         contentPanel.add(new JScrollPane(injuryHistory));
 
+        // Check box for currently hurt question
         contentPanel.add(new JLabel("Currently Hurt?"));
         currentlyHurt = new JCheckBox();
         contentPanel.add(currentlyHurt);
 
+        // 1-10 ranking of athletic skills with JSpinner
         contentPanel.add(new JLabel("Agility (1-10):"));
         agility = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
         contentPanel.add(agility);
@@ -63,9 +68,9 @@ public class GuiProject extends JFrame {
         strength = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
         contentPanel.add(strength);
 
-        // Sport Specifications Section
+        // Sport Specifications questions
         contentPanel.add(new JLabel("Sport Specifications", SwingConstants.CENTER));
-        contentPanel.add(new JLabel("")); // empty cell for spacing
+        contentPanel.add(new JLabel(""));
 
         contentPanel.add(new JLabel("Sport Name:"));
         sportName = new JTextField();
@@ -111,39 +116,40 @@ public class GuiProject extends JFrame {
     }
 
     private void saveToCSV() {
-        JFileChooser fileChooser = new JFileChooser();
-        int returnValue = fileChooser.showSaveDialog(this);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            try {
-                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-                BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+        // Set the default file path to athlete_data.csv file
+        String filePath = "C:\\Users\\sserrano2024\\IdeaProjects\\GuiProject\\athlete_data.csv";
+        //automatically saves to csv file
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("athlete_data.csv",true));
 
-                // Write the form data to the CSV file
-                writer.write(name.getText() + ",");
-                writer.write(dob.getText() + ",");
-                writer.write(height.getText() + ",");
-                writer.write(weight.getText() + ",");
-                writer.write(injuryHistory.getText().replace("\n", " ") + ",");
-                writer.write(currentlyHurt.isSelected() + ",");
-                writer.write(agility.getValue() + ",");
-                writer.write(speed.getValue() + ",");
-                writer.write(strength.getValue() + ",");
-                writer.write(sportName.getText() + ",");
-                writer.write(teamName.getText() + ",");
-                writer.write(positionField.getText() + ",");
-                writer.write(seasonsPlayed.getText() + ",");
-                writer.write(avgGoalsScored.getText() + ",");
-                writer.write(avgGoalsBlocked.getText());
+            // Write the form data to the CSV file
+            writer.write(name.getText() + ",");
+            writer.write(dob.getText() + ",");
+            writer.write(height.getText() + ",");
+            writer.write(weight.getText() + ",");
+            writer.write(injuryHistory.getText().replace("\n", " ") + ",");
+            writer.write(currentlyHurt.isSelected() + ",");
+            writer.write(agility.getValue() + ",");
+            writer.write(speed.getValue() + ",");
+            writer.write(strength.getValue() + ",");
+            writer.write(sportName.getText() + ",");
+            writer.write(teamName.getText() + ",");
+            writer.write(positionField.getText() + ",");
+            writer.write(seasonsPlayed.getText() + ",");
+            writer.write(avgGoalsScored.getText() + ",");
+            writer.write(avgGoalsBlocked.getText());
 
-                writer.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error saving data to CSV file.");
-            }
+            //pop up message when successfully saved
+            writer.close();
+            JOptionPane.showMessageDialog(this, "Data saved to " + filePath);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving data to CSV file.");
         }
     }
 
     private void handleSubmit() {
+        // Shows pop-up message with question name and user input when Submit is pressed
         String message = "Player data submitted:\n" +
                 "Name: " + name.getText() + "\n" +
                 "DOB: " + dob.getText() + "\n" +
@@ -168,6 +174,7 @@ public class GuiProject extends JFrame {
     }
 
     private void handleClear() {
+        // Clear button method that resets everything
         name.setText("");
         dob.setText("");
         height.setText("");
